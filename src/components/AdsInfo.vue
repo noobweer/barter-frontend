@@ -18,7 +18,6 @@ const selectedCategories = ref(null)
 const selectedConditions = ref(null)
 const query = ref(null)
 
-// Загружаем объявления без фильтров
 onMounted(async () => {
   await adsStore.fetchAds()
   ads.value = adsStore.getAds
@@ -99,6 +98,7 @@ const pushCreateAd = async () => {
         :description="ad.description"
         :category="ad.category.name"
         :condition="ad.condition.name"
+        :createdAt="ad.created_at"
       />
     </div>
   </div>

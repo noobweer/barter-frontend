@@ -10,7 +10,7 @@ defineProps({
   description: String,
   category: String,
   condition: String,
-  // createdAt: Date,
+  createdAt: Date,
 })
 
 const editAd = async (id) => {
@@ -43,7 +43,7 @@ const editAd = async (id) => {
     </template>
     <template #footer>
       <div class="footer">
-        <span>Владелец: {{ user }}</span>
+        <span>Создатель: {{ user }}</span>
       </div>
     </template>
   </Card>

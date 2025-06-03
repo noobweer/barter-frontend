@@ -184,7 +184,7 @@ const pushHome = async () => {
           />
 
           <!-- Кнопка "Изменить" внутри формы -->
-          <Button @click="editAd" type="submit" class="w-full">Изменитть</Button>
+          <Button @click="editAd" type="submit" class="w-full">Изменить</Button>
           <DangerButton @click="deleteAd" label="Удалить объявление" class="w-full" />
           <Button @click="pushHome" label="Назад" variant="outlined" class="w-full" />
         </form>

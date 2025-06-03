@@ -19,10 +19,11 @@ onMounted(async () => {
     }
 
     // Загрузка данных
-    await adsStore.fetchAds()
+    // await adsStore.fetchAds()
     await adsStore.fetchAccount()
     await adsStore.fetchCategories()
     await adsStore.fetchConditions()
+    // await exchangesStore.fetchExchanges()
     isLoading.value = false
   } catch (error) {
     console.error('Ошибка при инициализации данных:', error)
