@@ -2,26 +2,51 @@
 import Card from '@/volt/Card.vue'
 import InputText from '@/volt/InputText.vue'
 import Button from '@/volt/Button.vue'
+import DangerButton from '@/volt/DangerButton.vue'
 import { useToast } from 'primevue/usetoast'
 import { useRouter } from 'vue-router'
 import apiClient from '@/services/authService'
 import { checkAuthInitData } from '@/services/authChecker'
 import MultiSelect from '@/volt/MultiSelect.vue'
 import { useAdsStore } from '@/stores/adsStore'
-import { ref, computed } from 'vue'
+import { watchEffect, computed, ref } from 'vue'
 
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    required: true,
+  },
+})
+
+const router = useRouter()
+const toast = useToast()
 const adsStore = useAdsStore()
-
-const categories = computed(() => adsStore.getCategories)
-const conditions = computed(() => adsStore.getConditions)
 
 const title = ref('')
 const description = ref('')
-const selectedCategory = ref(null)
-const selectedCondition = ref(null)
+const selectedCategory = ref([])
+const selectedCondition = ref([])
 
-const router = useRouter()
-const { toast } = useToast()
+// Загружаем данные при монтировании
+watchEffect(async () => {
+  const adData = adsStore.getAdById(Number(props.id))
+
+  if (!adData && adsStore.getAds.length === 0) {
+    await adsStore.fetchAds()
+  }
+
+  const foundAd = adsStore.getAdById(Number(props.id))
+
+  if (foundAd) {
+    title.value = foundAd.title
+    description.value = foundAd.description
+    selectedCategory.value = foundAd.category ? [foundAd.category] : []
+    selectedCondition.value = foundAd.condition ? [foundAd.condition] : []
+  }
+})
+
+const categories = computed(() => adsStore.getCategories)
+const conditions = computed(() => adsStore.getConditions)
 
 // {
 // 	"title": "Часы Casio",
@@ -31,7 +56,7 @@ const { toast } = useToast()
 // }
 
 // Функция для авторизации
-const createAd = async () => {
+const editAd = async () => {
   if (
     !title.value.trim() ||
     !description.value.trim() ||
@@ -40,7 +65,7 @@ const createAd = async () => {
   ) {
     toast.add({
       severity: 'error',
-      summary: 'Ошибка при создание',
+      summary: 'Ошибка при изменение',
       detail: 'Заполните все поля',
       life: 3000,
     })
@@ -50,14 +75,21 @@ const createAd = async () => {
   try {
     const categoryNames = selectedCategory.value?.map((cat) => cat.name) || []
     const conditionNames = selectedCondition.value?.map((cond) => cond.name) || []
-    const response = await apiClient.post('create-ad/', {
+    const response = await apiClient.post('edit-ad/', {
+      ad_id: Number(props.id),
       title: title.value,
       description: description.value,
       category: categoryNames[0],
       condition: conditionNames[0],
     })
 
-    if (response.data.is_created) {
+    if (response.data.is_edited) {
+      toast.add({
+        severity: 'success',
+        summary: 'Объявление успешно изменено',
+        detail: 'Возвращаем на главную...',
+        life: 3000,
+      })
       checkAuthInitData()
       router.push('/')
     }
@@ -65,11 +97,42 @@ const createAd = async () => {
     console.error(error)
     toast.add({
       severity: 'error',
-      summary: 'Ошибка при создание',
-      detail: 'Поля неверено заполеннны',
+      summary: 'Ошибка при изменение',
+      detail: 'Поля неверено заполнены',
       life: 3000,
     })
   }
+}
+
+const deleteAd = async () => {
+  try {
+    const response = await apiClient.post('delete-ad/', {
+      ad_id: Number(props.id),
+    })
+
+    if (response.data.is_deleted) {
+      toast.add({
+        severity: 'success',
+        summary: 'Объявление успешно удалено',
+        detail: 'Возвращаем на главную...',
+        life: 3000,
+      })
+      checkAuthInitData()
+      router.push('/')
+    }
+  } catch (error) {
+    console.error(error)
+    toast.add({
+      severity: 'error',
+      summary: 'Ошибка при изменение',
+      detail: 'Поля неверено заполнены',
+      life: 3000,
+    })
+  }
+}
+
+const pushHome = async () => {
+  router.push({ name: 'BarterPage' })
 }
 </script>
 
@@ -121,7 +184,9 @@ const createAd = async () => {
           />
 
           <!-- Кнопка "Изменить" внутри формы -->
-          <Button type="submit" class="w-full">Изменитть</Button>
+          <Button @click="editAd" type="submit" class="w-full">Изменитть</Button>
+          <DangerButton @click="deleteAd" label="Удалить объявление" class="w-full" />
+          <Button @click="pushHome" label="Назад" variant="outlined" class="w-full" />
         </form>
       </template>
     </Card>

@@ -18,6 +18,11 @@ export const useAdsStore = defineStore('ads', {
     getAds(state) {
       return state.ads
     },
+    getAdById: (state) => {
+      return (id) => {
+        return state.ads.find((ad) => ad.id === Number(id)) || null
+      }
+    },
     getCategories(state) {
       return state.categories
     },

@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '@/views/LoginPage.vue'
-import AdsPage from '@/views/AdsPage.vue'
+import BarterPage from '@/views/BarterPage.vue'
 import CreateAdPage from '@/views/CreateAdPage.vue'
 import EditAdPage from '@/views/EditAdPage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'AdsPage',
-    component: AdsPage,
+    name: 'BarterPage',
+    component: BarterPage,
   },
   {
     path: '/login',
@@ -21,9 +21,10 @@ const routes = [
     component: CreateAdPage,
   },
   {
-    path: '/edit-ad',
+    path: '/edit-ad/:id?',
     name: 'EditAdPage',
     component: EditAdPage,
+    props: true,
   },
 ]
 

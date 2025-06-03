@@ -21,7 +21,7 @@ const selectedCategory = ref(null)
 const selectedCondition = ref(null)
 
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 // {
 // 	"title": "Часы Casio",
@@ -58,6 +58,12 @@ const createAd = async () => {
     })
 
     if (response.data.is_created) {
+      toast.add({
+        severity: 'success',
+        summary: 'Объявление успешно создано',
+        detail: 'Возвращаем на главную...',
+        life: 3000,
+      })
       checkAuthInitData()
       router.push('/')
     }
@@ -66,10 +72,14 @@ const createAd = async () => {
     toast.add({
       severity: 'error',
       summary: 'Ошибка при создание',
-      detail: 'Поля неверено заполеннны',
+      detail: 'Поля неверено заполнены',
       life: 3000,
     })
   }
+}
+
+const pushHome = async () => {
+  router.push({ name: 'BarterPage' })
 }
 </script>
 
@@ -122,6 +132,7 @@ const createAd = async () => {
 
           <!-- Кнопка "Создать" внутри формы -->
           <Button type="submit" class="w-full">Создать</Button>
+          <Button @click="pushHome" label="Назад" variant="outlined" class="w-full" />
         </form>
       </template>
     </Card>

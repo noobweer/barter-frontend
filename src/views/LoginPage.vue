@@ -11,7 +11,7 @@ import { checkAuthInitData } from '@/services/authChecker'
 const username = ref('')
 const password = ref('')
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 // Функция для авторизации
 const login = async () => {

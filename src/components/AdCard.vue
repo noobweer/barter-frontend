@@ -1,5 +1,6 @@
 <script setup>
 import Card from '@/volt/Card.vue'
+import router from '@/router'
 
 defineProps({
   id: Number,
@@ -11,6 +12,15 @@ defineProps({
   condition: String,
   // createdAt: Date,
 })
+
+const editAd = async (id) => {
+  router.push({
+    name: 'EditAdPage',
+    params: {
+      id: id,
+    },
+  })
+}
 </script>
 
 <template>
@@ -23,7 +33,7 @@ defineProps({
           src="@/assets/template.jpg"
         />
         <span class="id">ID: {{ id }}</span>
-        <span v-if="account === user" class="edit">Изменить</span>
+        <span v-if="account === user" @click="editAd(id)" class="edit">Изменить</span>
       </div>
     </template>
     <template #title>{{ title }}</template>
