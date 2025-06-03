@@ -20,6 +20,9 @@ onMounted(async () => {
 
     // Загрузка данных
     await adsStore.fetchAds()
+    await adsStore.fetchAccount()
+    await adsStore.fetchCategories()
+    await adsStore.fetchConditions()
     isLoading.value = false
   } catch (error) {
     console.error('Ошибка при инициализации данных:', error)
@@ -28,6 +31,7 @@ onMounted(async () => {
     const isTokenRefreshed = await refreshAuthToken()
     if (isTokenRefreshed) {
       await adsStore.fetchAds()
+      await adsStore.fetchAccount()
       isLoading.value = false
     } else {
       router.push('/login')

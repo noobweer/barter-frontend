@@ -3,6 +3,7 @@ import Card from '@/volt/Card.vue'
 
 defineProps({
   id: Number,
+  account: String,
   user: String,
   title: String,
   description: String,
@@ -22,6 +23,7 @@ defineProps({
           src="@/assets/template.jpg"
         />
         <span class="id">ID: {{ id }}</span>
+        <span v-if="account === user" class="edit">Изменить</span>
       </div>
     </template>
     <template #title>{{ title }}</template>
@@ -31,7 +33,7 @@ defineProps({
     </template>
     <template #footer>
       <div class="footer">
-        <span>{{ user }}</span>
+        <span>Владелец: {{ user }}</span>
       </div>
     </template>
   </Card>
@@ -62,5 +64,18 @@ defineProps({
   font-size: 0.75rem;
   /* font-weight: bold; */
   z-index: 10;
+}
+.edit {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  /* font-weight: bold; */
+  z-index: 10;
+  cursor: pointer;
 }
 </style>
