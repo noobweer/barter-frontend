@@ -1,6 +1,17 @@
 # barter-frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+![Фото интерфейса](https://i.yapx.ru/ZS3uH.png)
+
+- Стек фронтенда:
+
+1. VueJS + Vite
+2. Pinia (State manager для удобного хранения данных)
+3. Vue Router
+4. Axios (Для запросов на backend)
+5. Volt (UI Component Library для красивого интерфейса)
+
+- Также прошу обратить внимание, что есть репозиторий backend данного проекта:
+  [Репозиторий backend`а (barter-backend)](https://github.com/noobweer/barter-backend)
 
 ## Recommended IDE Setup
 
