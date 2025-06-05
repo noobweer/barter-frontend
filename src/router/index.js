@@ -3,6 +3,8 @@ import LoginPage from '@/views/LoginPage.vue'
 import BarterPage from '@/views/BarterPage.vue'
 import CreateAdPage from '@/views/CreateAdPage.vue'
 import EditAdPage from '@/views/EditAdPage.vue'
+import CreateExchangePage from '@/views/CreateExchangePage.vue'
+import EditExchangePage from '@/views/EditExchangePage.vue'
 
 const routes = [
   {
@@ -24,6 +26,17 @@ const routes = [
     path: '/edit-ad/:id?',
     name: 'EditAdPage',
     component: EditAdPage,
+    props: true,
+  },
+  {
+    path: '/create-exchange',
+    name: 'CreateExchangePage',
+    component: CreateExchangePage,
+  },
+  {
+    path: '/edit-exchange/:id?',
+    name: 'EditExchangePage',
+    component: EditExchangePage,
     props: true,
   },
 ]

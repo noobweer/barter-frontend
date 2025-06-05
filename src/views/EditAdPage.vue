@@ -90,7 +90,9 @@ const editAd = async () => {
         detail: 'Возвращаем на главную...',
         life: 3000,
       })
-      checkAuthInitData()
+      adsStore.fetchAds
+      adsStore.fetchCategories
+      adsStore.fetchConditions
       router.push('/')
     }
   } catch (error) {

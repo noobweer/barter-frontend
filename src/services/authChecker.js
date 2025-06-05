@@ -1,8 +1,10 @@
 import { refreshAuthToken } from './authRefresh'
 import { useAdsStore } from '@/stores/adsStore'
+import { useExchangesStore } from '@/stores/exchangesStore'
 
 export async function checkAuthInitData() {
   const adsStore = useAdsStore()
+  const exchangeStore = useExchangesStore()
 
   if (!localStorage.getItem('access_token')) {
     console.log('Access token not found. Redirecting to login.')
@@ -16,6 +18,7 @@ export async function checkAuthInitData() {
       adsStore.fetchAccount(),
       adsStore.fetchCategories(),
       adsStore.fetchConditions(),
+      exchangeStore.fetchExchanges(),
     ])
     console.log('All data initialized successfully.')
     return true
@@ -29,6 +32,7 @@ export async function checkAuthInitData() {
           adsStore.fetchAccount(),
           adsStore.fetchCategories(),
           adsStore.fetchConditions(),
+          exchangeStore.fetchExchanges(),
         ])
         console.log('All data initialized successfully after token refresh.')
         return true

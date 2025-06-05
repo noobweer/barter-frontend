@@ -5,16 +5,44 @@ import InputText from '@/volt/InputText.vue'
 import ExchangeCard from './ExchangeCard.vue'
 import { useExchangesStore } from '@/stores/exchangesStore'
 import { onMounted, ref } from 'vue'
+import router from '@/router'
 
 const exchangesStore = useExchangesStore()
 const exchanges = ref([])
 const statuses = exchangesStore.getStatuses
 const selectedStatuses = ref(null)
+const senderUsername = ref('')
+const receiverUsername = ref('')
 
 onMounted(async () => {
   await exchangesStore.fetchExchanges()
   exchanges.value = exchangesStore.getExchanges
 })
+
+const applyFilters = async () => {
+  exchangesStore.setFilter('receiver_username', receiverUsername.value || null)
+  exchangesStore.setFilter('sender_username', senderUsername.value || null)
+  exchangesStore.setFilter('status', selectedStatuses.value || [])
+
+  await exchangesStore.applyFilters()
+  exchanges.value = exchangesStore.getExchanges
+}
+
+const removeFilters = async () => {
+  exchangesStore.setFilter('receiver_username', null)
+  exchangesStore.setFilter('sender_username', null)
+  exchangesStore.setFilter('status', [])
+  receiverUsername.value = null
+  senderUsername.value = null
+  selectedStatuses.value = null
+
+  await exchangesStore.applyFilters()
+  exchanges.value = exchangesStore.getExchanges
+}
+
+const pushCreateExchange = () => {
+  router.push({ name: 'CreateExchangePage' })
+}
 </script>
 
 <template>
@@ -40,13 +68,13 @@ onMounted(async () => {
         size="small"
       />
       <InputText
-        v-model="query"
+        v-model="senderUsername"
         placeholder="Введите логин отпровителя"
         class="w-full md:w-60"
         size="small"
       />
       <InputText
-        v-model="query"
+        v-model="receiverUsername"
         placeholder="Введите логин получателя"
         class="w-full md:w-60"
         size="small"
@@ -82,7 +110,7 @@ onMounted(async () => {
         :receiver_title="exchange.ad_receiver.title"
         :receiver_category="exchange.ad_receiver.category.name"
         :receiver_condition="exchange.ad_receiver.condition.name"
-        :status="exchange.status"
+        :status="exchange.status_display"
         :comment="exchange.comment"
       />
     </div>

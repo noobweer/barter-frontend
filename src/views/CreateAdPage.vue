@@ -5,7 +5,6 @@ import Button from '@/volt/Button.vue'
 import { useToast } from 'primevue/usetoast'
 import { useRouter } from 'vue-router'
 import apiClient from '@/services/authService'
-import { checkAuthInitData } from '@/services/authChecker'
 import MultiSelect from '@/volt/MultiSelect.vue'
 import { useAdsStore } from '@/stores/adsStore'
 import { ref, computed } from 'vue'
@@ -64,7 +63,9 @@ const createAd = async () => {
         detail: 'Возвращаем на главную...',
         life: 3000,
       })
-      checkAuthInitData()
+      adsStore.fetchAds()
+      adsStore.fetchCategories()
+      adsStore.fetchConditions()
       router.push('/')
     }
   } catch (error) {

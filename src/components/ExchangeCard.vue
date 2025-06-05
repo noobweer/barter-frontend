@@ -27,9 +27,9 @@ onMounted(async () => {
   account.value = adsStore.getAccount
 })
 
-const editAd = async (id) => {
+const editExchange = async (id) => {
   router.push({
-    name: 'EditAdPage',
+    name: 'EditExchangePage',
     params: {
       id: id,
     },
@@ -47,7 +47,7 @@ const editAd = async (id) => {
           src="@/assets/template.jpg"
         />
         <span class="id">ID: {{ id }}</span>
-        <span v-if="account === sender_user" @click="editAd(id)" class="edit">Изменить</span>
+        <span v-if="account === sender_user" @click="editExchange(id)" class="edit">Изменить</span>
       </div>
     </template>
     <template #title>
