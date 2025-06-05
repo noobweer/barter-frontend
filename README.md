@@ -1,6 +1,6 @@
 # barter-frontend
 
-![Фото интерфейса](https://i.yapx.ru/ZS3uH.png)
+![Фото интерфейса](https://i.imgur.com/f3tzOhs.png)
 
 - Стек фронтенда:
 
